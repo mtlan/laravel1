@@ -1,0 +1,257 @@
+/* Biến màu sắc và font chữ */
+:root {
+    --card-primary-color: #0056b3;
+    /* Xanh đậm cho tiêu đề, logo */
+    --card-accent-color: #f0ad4e;
+    /* Màu nhấn phụ (ví dụ: cho số thẻ) */
+    --card-bg: #ffffff;
+    /* Nền thẻ */
+    --card-border-color: #e0e0e0;
+    /* Viền thẻ */
+    --text-dark: #333;
+    /* Chữ chính */
+    --text-light: #666;
+    /* Chữ phụ */
+    --shadow-color: rgba(0, 0, 0, 0.15);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* --- Wrapper cho thẻ để căn giữa và có thể xoay/biến đổi sau này --- */
+.guide-card-wrapper {
+    perspective: 1000px;
+    /* Cho hiệu ứng 3D nhẹ nếu cần */
+}
+
+/* --- Thẻ chính --- */
+.guide-card {
+    width: 320px;
+    /* Chiều rộng thẻ */
+    height: 200px;
+    /* Chiều cao thẻ (tỉ lệ khoảng 1.6:1, gần CR80) */
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border-color);
+    border-radius: 15px;
+    /* Bo tròn góc thẻ */
+    box-shadow: 0 8px 25px var(--shadow-color);
+    /* Đổ bóng sâu hơn để nổi bật */
+    display: flex;
+    overflow: hidden;
+    /* Đảm bảo mọi thứ nằm gọn bên trong */
+    transform-style: preserve-3d;
+    /* Cho hiệu ứng 3D */
+    transition: transform 0.3s ease-in-out;
+    /* Hiệu ứng hover nhẹ */
+}
+
+.guide-card:hover {
+    transform: translateY(-5px);
+    /* Nâng thẻ lên một chút khi hover */
+}
+
+/* --- Phần bên trái (Ảnh & QR) --- */
+.card-left-section {
+    flex: 0 0 130px;
+    /* Chiều rộng cố định cho cột trái */
+    background: linear-gradient(145deg, var(--card-primary-color), darken(var(--card-primary-color), 10%));
+    /* Gradient màu độc đáo */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    /* Đẩy ảnh lên trên, QR xuống dưới */
+    padding: 15px 0;
+    position: relative;
+    /* Cho các chi tiết độc đáo */
+    clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+    /* Tạo đường cắt xéo độc đáo */
+}
+
+/* Chi tiết độc đáo: Một dải màu nhỏ ở cạnh */
+.card-left-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    /* Chiều rộng dải màu */
+    height: 100%;
+    background-color: var(--card-accent-color);
+    /* Màu nhấn */
+    z-index: 1;
+    /* Đảm bảo nó nằm trên background */
+}
+
+.profile-photo-container {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    /* Ảnh tròn */
+    overflow: hidden;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    /* Viền trắng nổi bật */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    margin-top: 10px;
+    /* Khoảng cách từ trên xuống */
+}
+
+.profile-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.qr-code-area {
+    text-align: center;
+    margin-bottom: 10px;
+    /* Khoảng cách từ dưới lên */
+}
+
+.qr-code {
+    width: 60px;
+    height: 60px;
+    background-color: #fff;
+    padding: 3px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.qr-text-label {
+    display: block;
+    font-size: 0.65em;
+    color: rgba(255, 255, 255, 0.9);
+    margin-top: 5px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* --- Phần bên phải (Thông tin) --- */
+.card-right-section {
+    flex: 1;
+    /* Chiếm hết không gian còn lại */
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* Căn trên cùng */
+    color: var(--text-dark);
+}
+
+.card-header-logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    /* Khoảng cách với tiêu đề thẻ */
+}
+
+.org-logo {
+    width: 25px;
+    height: 25px;
+    margin-right: 8px;
+    opacity: 0.8;
+}
+
+.org-name {
+    font-size: 0.75em;
+    font-weight: bold;
+    color: var(--card-primary-color);
+    letter-spacing: 0.5px;
+}
+
+.card-title {
+    font-size: 1.1em;
+    color: var(--card-primary-color);
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--card-border-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    /* Đẩy label sang trái, value sang phải */
+    margin-bottom: 4px;
+    /* Khoảng cách giữa các hàng thông tin */
+    font-size: 0.8em;
+}
+
+.info-label {
+    font-weight: bold;
+    color: var(--text-light);
+    flex-shrink: 0;
+    /* Không co lại */
+    margin-right: 10px;
+    /* Khoảng cách với value */
+}
+
+.info-value {
+    color: var(--text-dark);
+    text-align: right;
+    /* Căn phải giá trị */
+    flex-grow: 1;
+    /* Cho phép giá trị mở rộng */
+}
+
+.card-detail-row {
+    margin-top: 6px;
+    /* Tạo khoảng cách giữa các nhóm thông tin */
+    padding-top: 4px;
+    border-top: 1px dotted rgba(0, 0, 0, 0.1);
+    /* Đường kẻ mờ chia nhóm */
+}
+
+.card-number {
+    font-weight: bold;
+    color: var(--card-accent-color);
+    /* Màu nhấn đặc biệt cho số thẻ */
+    font-size: 0.9em;
+    /* Lớn hơn một chút */
+}
+
+/* --- In ấn (quan trọng cho thẻ) --- */
+@media print {
+    body {
+        background-color: #fff;
+        margin: 0;
+        padding: 0;
+        display: block;
+        /* Bỏ flexbox để kiểm soát vị trí in tốt hơn */
+    }
+
+    .guide-card-wrapper {
+        width: 100%;
+        /* Chiếm hết chiều rộng có thể */
+        display: flex;
+        justify-content: center;
+        margin-top: 10mm;
+        /* Khoảng cách từ mép giấy */
+        page-break-inside: avoid;
+        /* Tránh thẻ bị ngắt trang */
+    }
+
+    .guide-card {
+        width: 85.6mm;
+        /* Kích thước chuẩn thẻ CR80 */
+        height: 53.98mm;
+        /* Kích thước chuẩn thẻ CR80 */
+        box-shadow: none;
+        /* Bỏ bóng khi in */
+        border: 0.5px solid var(--card-border-color);
+        /* Viền mỏng hơn khi in */
+        border-radius: 5mm;
+        /* Bo góc phù hợp in ấn */
+    }
+}

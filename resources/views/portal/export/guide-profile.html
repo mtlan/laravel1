@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Hồ sơ Hướng dẫn viên - Nguyễn Thị Minh Anh</title>
+        <link rel="stylesheet" href="guide-profile.css" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+    </head>
+    <body>
+        <div class="container">
+            <!-- Header Section -->
+            <header class="header">
+                <div class="header-content">
+                    <div class="logo-section">
+                        <div class="logo">
+                            <!-- <i class="fas fa-map-marked-alt"></i> -->
+                            <img
+                                src="{{ asset('frontend/images/logo.png') }}"
+                                alt="logo"
+                            />
+                        </div>
+                        <div class="company-info">
+                            <h1>CÔNG TY DU LỊCH VIỆT NAM</h1>
+                            <p>Vietnam Tourism Company</p>
+                        </div>
+                    </div>
+                    <div class="document-info">
+                        <h2>HỒ SƠ HƯỚNG DẪN VIÊN</h2>
+                        <p class="document-number">Số: HDV-2024-001</p>
+                        <p class="issue-date">Ngày cấp: 15/01/2024</p>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Profile Section -->
+                <section class="profile-section">
+                    <div class="profile-card">
+                        <div class="profile-photo">
+                            <img
+                                src="{{ asset('images/hPFdt3sDGEmdws0yBplHmPCKJxNeQ9AzIdEinnkQ.jpg')}}"
+                                alt="Ảnh hướng dẫn viên"
+                            />
+
+                            <div class="status-badge">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Đang hoạt động</span>
+                            </div>
+                        </div>
+                        <div class="profile-info">
+                            <h3 class="guide-name">NGUYỄN THỊ MINH ANH</h3>
+                            <p class="guide-title">
+                                Hướng dẫn viên Du lịch Quốc tế
+                            </p>
+                            <div class="guide-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-birthday-cake"></i>
+                                    <span
+                                        ><strong>Ngày sinh:</strong>
+                                        15/03/1995</span
+                                    >
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-phone"></i>
+                                    <span
+                                        ><strong>Điện thoại:</strong> 0905 123
+                                        456</span
+                                    >
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <span
+                                        ><strong>Email:</strong>
+                                        minhanh@vietnamtourism.com</span
+                                    >
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span
+                                        ><strong>Địa chỉ:</strong> 123 Nguyễn
+                                        Huệ, Quận 1, TP.HCM</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Card Section -->
+                <section class="card-section">
+                    <div class="guide-card">
+                        <div class="card-left">
+                            <div class="card-photo">
+                                <img
+                                    src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop&crop=face"
+                                    alt="Ảnh thẻ"
+                                />
+                            </div>
+                            <div class="qr-section">
+                                <div class="qr-code">
+                                    <i class="fas fa-qrcode"></i>
+                                </div>
+                                <p>Quét để xác minh</p>
+                            </div>
+                        </div>
+                        <div class="card-right">
+                            <div class="card-header">
+                                <div class="card-logo">
+                                    <i class="fas fa-map-marked-alt"></i>
+                                </div>
+                                <div class="card-title">
+                                    <h4>THẺ HƯỚNG DẪN VIÊN</h4>
+                                    <p>Tour Guide Card</p>
+                                </div>
+                            </div>
+                            <div class="card-info">
+                                <div class="info-row">
+                                    <span class="label">Họ tên:</span>
+                                    <span class="value"
+                                        >NGUYỄN THỊ MINH ANH</span
+                                    >
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Số thẻ:</span>
+                                    <span class="value card-number"
+                                        >HDV-2024-001</span
+                                    >
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Cấp ngày:</span>
+                                    <span class="value">15/01/2024</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Hạn đến:</span>
+                                    <span class="value">15/01/2029</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Specializations Section -->
+                <section class="specializations-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-star"></i>
+                        CHUYÊN MÔN & KỸ NĂNG
+                    </h3>
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h4>Ngôn ngữ</h4>
+                            <div class="skill-items">
+                                <span class="skill-tag"
+                                    >Tiếng Việt (Bản địa)</span
+                                >
+                                <span class="skill-tag"
+                                    >Tiếng Anh (Thành thạo)</span
+                                >
+                                <span class="skill-tag">Tiếng Pháp (Tốt)</span>
+                                <span class="skill-tag"
+                                    >Tiếng Trung (Cơ bản)</span
+                                >
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Chuyên môn</h4>
+                            <div class="skill-items">
+                                <span class="skill-tag">Tour văn hóa</span>
+                                <span class="skill-tag">Tour ẩm thực</span>
+                                <span class="skill-tag">Tour mạo hiểm</span>
+                                <span class="skill-tag">Tour MICE</span>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Kỹ năng</h4>
+                            <div class="skill-items">
+                                <span class="skill-tag"
+                                    >Giao tiếp xuất sắc</span
+                                >
+                                <span class="skill-tag">Xử lý tình huống</span>
+                                <span class="skill-tag">Sơ cấp cứu</span>
+                                <span class="skill-tag">Photography</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="footer-content">
+                    <div class="footer-left">
+                        <p>
+                            <strong>Địa chỉ:</strong> 123 Nguyễn Huệ, Quận 1,
+                            TP.HCM
+                        </p>
+                        <p><strong>Điện thoại:</strong> (028) 3822 1234</p>
+                    </div>
+                    <div class="footer-right">
+                        <p><strong>Website:</strong> www.vietnamtourism.com</p>
+                        <p><strong>Email:</strong> info@vietnamtourism.com</p>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>
+                        © 2024 Công ty Du lịch Việt Nam. Tất cả quyền được bảo
+                        lưu.
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>
