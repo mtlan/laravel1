@@ -33,8 +33,8 @@ class AppServiceProvider extends ServiceProvider
         //     'chuyenMucDichVus' => $chuyenMucDichVus,
         //     'chuyenMucTinTucs' => $chuyenMucTinTucs
         // ]);
-        if (app()->environment('production')) {
-            URL::forceScheme('https');
-        }
+        // if (app()->environment('production')) {
+        //     URL::forceScheme('https');
+        // }
     }
 }
