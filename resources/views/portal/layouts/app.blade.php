@@ -14,35 +14,35 @@
     <meta content="Minimal Admin & Dashboard Template" name="description">
     <meta content="Themesbrand" name="author">
     {{-- App favicon  --}}
-    <link rel="shortcut icon" href="{{ url('front') }}/assets/images/favicon.ico">
+    <link rel="shortcut icon" href="{{ secure_asset('/front/assets/images/favicon.ico') }}">
 
     <!-- {{-- Favicon --}}
     {{-- <link rel="shortcut icon" href="{{ asset('favicon/favicon.ico') }}" type="image/x-icon"> --}} -->
 
-    <link rel="stylesheet" href="{{ asset('css/mystyle.css?v=1.0') }}">
+    <link rel="stylesheet" href="{{ secure_asset('css/mystyle.css?v=1.0') }}">
     <!-- {{-- Font awesome --}} -->
-    <link rel="stylesheet" href="{{ asset('vendor/fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('vendor/fontawesome/css/all.min.css') }}">
     <!-- Fonts css load -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link id="fontsLink" rel="stylesheet">
 
     <!-- jsvectormap css -->
-    <link href="{{ url('front') }}/assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ secure_asset('/front/assets/libs/jsvectormap/css/jsvectormap.min.css') }}" rel="stylesheet" type="text/css">
 
     <!--Swiper slider css-->
-    <link href="{{ url('front') }}/assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ secure_asset('/front/assets/libs/swiper/swiper-bundle.min.css') }}" rel="stylesheet" type="text/css">
 
     <!-- Layout config Js -->
-    <script src="{{ url('front') }}/assets/js/layout.js"></script>
+    <script src="{{ secure_asset('/front/assets/js/layout.js') }}"></script>
     <!-- Bootstrap Css -->
-    <link href="{{ url('front') }}/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ secure_asset('/front/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
     <!-- Icons Css -->
-    <link href="{{ url('front') }}/assets/css/icons.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ secure_asset('/front/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css">
     <!-- App Css-->
-    <link href="{{ url('front') }}/assets/css/app.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ secure_asset('/front/assets/css/app.min.css') }}" rel="stylesheet" type="text/css">
     <!-- custom Css-->
-    <link href="{{ url('front') }}/assets/css/custom.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ secure_asset('/front/assets/css/custom.min.css') }}" rel="stylesheet" type="text/css">
 
     <!-- Sử dụng thư việc để tạo date và format tiếng việt -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -55,13 +55,13 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
 
     <!-- Thêm css cho bootstrap-tag -->
-    <link href="{{ asset('vendor/bootstrap-tagsinput/bootstrap-tagsinput.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('vendor/bootstrap-tagsinput/bootstrap-tagsinput.css') }}" rel="stylesheet">
 
     <!-- Thêm css cho dropzone -->
     {{-- <link rel="stylesheet" href="{{asset('vendor/dropzone/dropzone.css')}}" type="text/css"> --}}
 
     <!-- {{-- Jquery --}} -->
-    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ secure_asset('vendor/jquery/jquery.min.js') }}"></script>
 
     @livewireStyles
 </head>
@@ -122,18 +122,18 @@
             <div class="navbar-brand-box">
                 <a href="index.html" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="{{ url('front') }}/assets/images/logo-sm.png" alt="" height="22">
+                        <img src="{{ secure_asset('/front/assets/images/logo-sm.png') }}" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ url('front') }}/assets/images/logo-dark.png" alt="" height="22">
+                        <img src="{{ secure_asset('/front/assets/images/logo-dark.png') }}" alt="" height="22">
                     </span>
                 </a>
                 <a href="index.html" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="{{ url('front') }}/assets/images/logo-sm.png" alt="" height="22">
+                        <img src="{{ secure_asset('/front/assets/images/logo-sm.png') }}" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ url('front') }}/assets/images/logo-light.png" alt="" height="22">
+                        <img src="{{ secure_asset('/front/assets/images/logo-light.png') }}" alt="" height="22">
                     </span>
                 </a>
                 <button type="button" class="btn btn-sm p-0 fs-3xl header-item float-end btn-vertical-sm-hover"
@@ -689,22 +689,22 @@
                     <div class="navbar-brand-box horizontal-logo">
                         <a href="index.html" class="logo logo-dark">
                             <span class="logo-sm">
-                                <img src="{{ url('front') }}/assets/images/logo-sm.png" alt=""
+                                <img src="{{ secure_asset('/front/assets/images/logo-sm.png') }}" alt=""
                                     height="22">
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ url('front') }}/assets/images/logo-dark.png" alt=""
+                                <img src="{{ secure_asset('/front/assets/images/logo-dark.png') }}" alt=""
                                     height="22">
                             </span>
                         </a>
 
                         <a href="index.html" class="logo logo-light">
                             <span class="logo-sm">
-                                <img src="{{ url('front') }}/assets/images/logo-sm.png" alt=""
+                                <img src="{{ secure_asset('/front/assets/images/logo-sm.png') }}" alt=""
                                     height="22">
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ url('front') }}/assets/images/logo-light.png" alt=""
+                                <img src="{{ secure_asset('/front/assets/images/logo-light.png') }}" alt=""
                                     height="22">
                             </span>
                         </a>
@@ -773,7 +773,7 @@
                                     <!-- item -->
                                     <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
                                         <div class="d-flex">
-                                            <img src="{{ url('front') }}/assets/images/users/avatar-2.jpg"
+                                            <img src="{{ secure_asset('/front/assets/images/users/avatar-2.jpg') }}"
                                                 class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-1">
                                                 <h6 class="m-0">Angela Bernier</h6>
@@ -784,7 +784,7 @@
                                     <!-- item -->
                                     <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
                                         <div class="d-flex">
-                                            <img src="{{ url('front') }}/assets/images/users/avatar-3.jpg"
+                                            <img src="{{ secure_asset('/front/assets/images/users/avatar-3.jpg') }}"
                                                 class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-1">
                                                 <h6 class="m-0">David Grasso</h6>
@@ -795,7 +795,7 @@
                                     <!-- item -->
                                     <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
                                         <div class="d-flex">
-                                            <img src="{{ url('front') }}/assets/images/users/avatar-5.jpg"
+                                            <img src="{{ secure_asset('/front/assets/images/users/avatar-5.jpg') }}"
                                                 class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-1">
                                                 <h6 class="m-0">Mike Bunch</h6>
@@ -838,21 +838,21 @@
                                 <div class="row g-0">
                                     <div class="col">
                                         <a class="dropdown-icon-item" href="#!">
-                                            <img src="{{ url('front') }}/assets/images/brands/github.png"
+                                            <img src="{{ secure_asset('/front/assets/images/brands/github.png') }}"
                                                 alt="Github">
                                             <span>GitHub</span>
                                         </a>
                                     </div>
                                     <div class="col">
                                         <a class="dropdown-icon-item" href="#!">
-                                            <img src="{{ url('front') }}/assets/images/brands/bitbucket.png"
+                                            <img src="{{ secure_asset('/front/assets/images/brands/bitbucket.png') }}"
                                                 alt="bitbucket">
                                             <span>Bitbucket</span>
                                         </a>
                                     </div>
                                     <div class="col">
                                         <a class="dropdown-icon-item" href="#!">
-                                            <img src="{{ url('front') }}/assets/images/brands/dribbble.png"
+                                            <img src="{{ secure_asset('/front/assets/images/brands/dribbble.png') }}"
                                                 alt="dribbble">
                                             <span>Dribbble</span>
                                         </a>
@@ -862,21 +862,21 @@
                                 <div class="row g-0">
                                     <div class="col">
                                         <a class="dropdown-icon-item" href="#!">
-                                            <img src="{{ url('front') }}/assets/images/brands/dropbox.png"
+                                            <img src="{{ secure_asset('/front/assets/images/brands/dropbox.png') }}"
                                                 alt="dropbox">
                                             <span>Dropbox</span>
                                         </a>
                                     </div>
                                     <div class="col">
                                         <a class="dropdown-icon-item" href="#!">
-                                            <img src="{{ url('front') }}/assets/images/brands/mail_chimp.png"
+                                            <img src="{{ secure_asset('/front/assets/images/brands/mail_chimp.png') }}"
                                                 alt="mail_chimp">
                                             <span>Mail Chimp</span>
                                         </a>
                                     </div>
                                     <div class="col">
                                         <a class="dropdown-icon-item" href="#!">
-                                            <img src="{{ url('front') }}/assets/images/brands/slack.png"
+                                            <img src="{{ secure_asset('/front/assets/images/brands/slack.png') }}"
                                                 alt="slack">
                                             <span>Slack</span>
                                         </a>
@@ -923,7 +923,7 @@
                                         <div class="d-flex">
                                             <div class="avatar-sm me-3 flex-shrink-0">
                                                 <div class="avatar-title bg-light rounded">
-                                                    <img src="{{ url('front') }}/assets/images/products/32/img-1.png"
+                                                    <img src="{{ secure_asset('/front/assets/images/products/32/img-1.png') }}"
                                                         class="avatar-xs" alt="user-pic">
                                                 </div>
                                             </div>
@@ -958,7 +958,7 @@
                                         <div class="d-flex">
                                             <div class="avatar-sm me-3 flex-shrink-0">
                                                 <div class="avatar-title bg-light rounded">
-                                                    <img src="{{ url('front') }}/assets/images/products/32/img-5.png"
+                                                    <img src="{{ secure_asset('/front/assets/images/products/32/img-5.png') }}"
                                                         class="avatar-xs" alt="user-pic">
                                                 </div>
                                             </div>
@@ -993,7 +993,7 @@
                                         <div class="d-flex">
                                             <div class="avatar-sm me-3 flex-shrink-0">
                                                 <div class="avatar-title bg-light rounded">
-                                                    <img src="{{ url('front') }}/assets/images/products/32/img-10.png"
+                                                    <img src="{{ secure_asset('/front/assets/images/products/32/img-10.png') }}"
                                                         class="avatar-xs" alt="user-pic">
                                                 </div>
                                             </div>
@@ -1028,7 +1028,7 @@
                                         <div class="d-flex">
                                             <div class="avatar-sm me-3 flex-shrink-0">
                                                 <div class="avatar-title bg-light rounded">
-                                                    <img src="{{ url('front') }}/assets/images/products/32/img-11.png"
+                                                    <img src="{{ secure_asset('/front/assets/images/products/32/img-11.png') }}"
                                                         class="avatar-xs" alt="user-pic">
                                                 </div>
                                             </div>
@@ -1063,7 +1063,7 @@
                                         <div class="d-flex">
                                             <div class="avatar-sm me-3 flex-shrink-0">
                                                 <div class="avatar-title bg-light rounded">
-                                                    <img src="{{ url('front') }}/assets/images/products/32/img-8.png"
+                                                    <img src="{{ secure_asset('/front/assets/images/products/32/img-8.png') }}"
                                                         class="avatar-xs" alt="user-pic">
                                                 </div>
                                             </div>
@@ -1239,7 +1239,7 @@
                                         class="text-reset notification-item d-block dropdown-item position-relative unread-message">
                                         <div class="d-flex">
                                             <div class="position-relative me-3 flex-shrink-0">
-                                                <img src="{{ url('front') }}/assets/images/users/32/avatar-2.jpg"
+                                                <img src="{{ secure_asset('/front/assets/images/users/32/avatar-2.jpg') }}"
                                                     class="rounded-circle avatar-xs" alt="user-pic">
                                                 <span
                                                     class="active-badge position-absolute start-100 translate-middle p-1 bg-success rounded-circle">
@@ -1307,7 +1307,7 @@
                                         <div class="d-flex">
 
                                             <div class="position-relative me-3 flex-shrink-0">
-                                                <img src="{{ url('front') }}/assets/images/users/32/avatar-8.jpg"
+                                                <img src="{{ secure_asset('/front/assets/images/users/32/avatar-8.jpg') }}"
                                                     class="rounded-circle avatar-xs" alt="user-pic">
                                                 <span
                                                     class="active-badge position-absolute start-100 translate-middle p-1 bg-warning rounded-circle">
@@ -1354,7 +1354,7 @@
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="d-flex align-items-center">
                                 <img class="rounded-circle header-profile-user"
-                                    src="{{ url('front') }}/assets/images/users/32/avatar-1.jpg"
+                                    src="{{ secure_asset('/front/assets/images/users/32/avatar-1.jpg') }}"
                                     alt="Header Avatar">
                                 <span class="text-start ms-xl-2">
                                     {{-- <span
@@ -1600,7 +1600,7 @@
                         <div class="col-lg-5">
                             <div class="bg-primary-subtle p-5 h-100">
                                 <div class="p-lg-4">
-                                    <img src="{{ url('front') }}/assets/images/products/img-3.png" alt=""
+                                    <img src="{{ secure_asset('/front/assets/images/products/img-3.png') }}" alt=""
                                         class="img-fluid">
                                 </div>
                             </div>
@@ -1686,30 +1686,30 @@
     </div>
 
     <!-- JAVASCRIPT -->
-    <script src="{{ url('front') }}/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ url('front') }}/assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="{{ secure_asset('/front/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ secure_asset('/front/assets/libs/simplebar/simplebar.min.js') }}"></script>
     <!-- apexcharts -->
-    <script src="{{ url('front') }}/assets/libs/apexcharts/apexcharts.min.js"></script>
+    <script src="{{ secure_asset('/front/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
 
     <!-- Vector map-->
-    <script src="{{ url('front') }}/assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
-    <script src="{{ url('front') }}/assets/libs/jsvectormap/maps/world-merc.js"></script>
+    <script src="{{ secure_asset('/front/assets/libs/jsvectormap/js/jsvectormap.min.js') }}"></script>
+    <script src="{{ secure_asset('/front/assets/libs/jsvectormap/maps/world-merc.js') }}"></script>
 
     <!--Swiper slider js-->
-    <script src="{{ url('front') }}/assets/libs/swiper/swiper-bundle.min.js"></script>
+    <script src="{{ secure_asset('/front/assets/libs/swiper/swiper-bundle.min.js') }}"></script>
 
-    <script src="{{ url('front') }}/assets/libs/list.js/list.min.js"></script>
+    <script src="{{ secure_asset('/front/assets/libs/list.js/list.min.js') }}"></script>
 
     <!-- Dashboard init -->
-    <script src="{{ url('front') }}/assets/js/pages/dashboard-ecommerce.init.js"></script>
+    <script src="{{ secure_asset('/front/assets/js/pages/dashboard-ecommerce.init.js') }}"></script>
 
-    {{-- <script src="{{ url('front') }}/assets/js/pages/ecommerce-product-list.init.js"></script> --}}
+    {{-- <script src="{{ secure_asset('/front/assets/js/pages/ecommerce-product-list.init.js"></script> --}}
 
     <!-- App js -->
-    <script src="{{ url('front') }}/assets/js/app.js"></script>
+    <script src="{{ secure_asset('/front/assets/js/app.js') }}"></script>
 
     {{-- Config sweetalert2 --}}
-    <script src="{{ asset('vendor/sweetalert2/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ secure_asset('vendor/sweetalert2/sweetalert2.all.min.js') }}"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.6.1/toastify.js" rel='preload' defer='true'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js" rel='preload' defer='true'>
@@ -1722,7 +1722,7 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
 
     {{-- Thêm JS cho bootstrap-tagsinput --}}
-    <script src="{{ asset('vendor/bootstrap-tagsinput/bootstrap-tagsinput.js') }}"></script>
+    <script src="{{ secure_asset('vendor/bootstrap-tagsinput/bootstrap-tagsinput.js') }}"></script>
 
     <!-- Thêm JS cho dropzone -->
     {{-- <script src="{{ asset('vendor/dropzone/dropzone-min.js') }}"></script>
