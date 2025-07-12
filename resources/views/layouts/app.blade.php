@@ -11,10 +11,10 @@
         href='//fonts.googleapis.com/css?family=Roboto%3Aregular%2Citalic%2C500%2C700%26subset%3Dlatin%2C'
         media='screen' />
 
-    <link type="image/x-icon" href="{{ asset('frontend/images/logonew.png') }}" rel="shortcut icon" />
+    <link type="image/x-icon" href="{{ secure_asset('frontend/images/logonew.png') }}" rel="shortcut icon" />
 
-    <link rel="stylesheet" href="{{ asset('frontend/css/bundle.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('frontend/css/index.css') }}" />
+    <link rel="stylesheet" href="{{ secure_asset('frontend/css/bundle.min.css') }}" />
+    <link rel="stylesheet" href="{{ secure_asset('frontend/css/index.css') }}" />
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet"
@@ -200,7 +200,7 @@
         </svg>
     </a>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src='{{ asset('frontend/js/bundle.min.js') }}'></script>
+    <script src='{{ secure_asset('frontend/js/bundle.min.js') }}'></script>
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.6.1/toastify.js" rel='preload' defer='true'></script>
