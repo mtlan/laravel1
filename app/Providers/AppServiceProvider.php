@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\ChuyenMuc;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
         //     'chuyenMucDichVus' => $chuyenMucDichVus,
         //     'chuyenMucTinTucs' => $chuyenMucTinTucs
         // ]);
-        
+        if (app()->environment('production')) {
+            URL::forceScheme('https');
+        }
     }
 }
