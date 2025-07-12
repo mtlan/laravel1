@@ -35,7 +35,8 @@
             <div class="text-center rounded p-4">
                 <div class="row g-3 mb-4">
                     <div class="col-12 col-md-2 col-lg-2 col-xl-auto me-auto">
-                        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#tintucModal">Thêm mới</button>
+                        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#tintucModal">Thêm
+                            mới</button>
                     </div><!--end col-->
 
                     <div class="col-12 col-md-4 col-lg-4 col-xl-3">
@@ -44,8 +45,7 @@
                                 <i class="bi bi-search"></i>
                             </span>
                             <input class="form-control" type="text" wire:model.live.debounce.300ms="search"
-                                placeholder="Tìm kiếm theo tên..."
-                                aria-label="Search">
+                                placeholder="Tìm kiếm theo tên..." aria-label="Search">
                         </div>
                     </div>
 
@@ -151,14 +151,14 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title text-black" id="exampleModalLabel">
-                            {{ $tintucId ? 'Sửa tin tức' : 'Thêm mới tin tức' }}</h5>
+                            Thêm mới tin tức</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group mb-2">
-                            <x-label for="ten" field="ten" class="col-6" :required="true">Tên</x-label>
+                            <x-label for="ten-add" field="ten" class="col-6" :required="true">Tên</x-label>
                             <div class="col-12">
-                                <input type="text" class="form-control" id="ten" wire:model.defer="ten"
+                                <input type="text" class="form-control" id="ten-add" wire:model.defer="ten"
                                     placeholder="Nhập tên tin tức">
                                 @error('ten')
                                     <span class="text-danger" style="font-size: 15px">{{ $message }}</span>
@@ -172,7 +172,8 @@
                                 x-on:livewire-upload-cancel="uploading = false; progress = 0"
                                 x-on:livewire-upload-error="uploading = false; progress = 0"
                                 x-on:livewire-upload-progress="progress = $event.detail.progress">
-                                <x-label for="hinhanhUpload" field="hinhanh" class="col-6" :required="true">Hình
+                                <x-label for="hinhanhUpload-add" field="hinhanh" class="col-6"
+                                    :required="true">Hình
                                     ảnh</x-label>
                                 <div x-show="uploading">
                                     <progress max="100" x-bind:value="progress" class="me-2"></progress>
@@ -180,7 +181,7 @@
                                 </div>
 
                                 <input wire:model="hinhanh" x-show="!uploading" class="form-control"
-                                    id="imageUpload" placeholder="Tải ảnh lên" type="file">
+                                    id="imageUpload-add" placeholder="Tải ảnh lên" type="file">
                                 @if ($hinhanh)
                                     <img width="100px" height="100px" src="{{ $hinhanh->temporaryUrl() }}">
                                 @elseif($hinhanhGoc)
@@ -193,9 +194,9 @@
                             </div>
                         </div>
                         <div class="form-group mb-2">
-                            <x-label for="mota" field="mota" class="col-6" :required="true">Mô tả</x-label>
+                            <x-label for="mota-add" field="mota" class="col-6" :required="true">Mô tả</x-label>
                             <div class="col-12">
-                                <textarea class="form-control" id="mota" wire:model.defer="mota" placeholder="Nhập mô tả tin tức"
+                                <textarea class="form-control" id="mota-add" wire:model.defer="mota" placeholder="Nhập mô tả tin tức"
                                     rows="3"></textarea>
                                 @error('mota')
                                     <span class="text-danger" style="font-size: 15px">{{ $message }}</span>
@@ -203,10 +204,10 @@
                             </div>
                         </div>
                         <div class="form-group mb-2">
-                            <x-label for="noidung" field="noidung" class="col-6" :required="true">Nội
+                            <x-label for="noidung-add" field="noidung" class="col-6" :required="true">Nội
                                 dung</x-label>
                             <div class="col-12" wire:ignore>
-                                <textarea class="form-control" id="noidung" wire:model.defer="noidung" placeholder="Nhập nội dung tin tức"
+                                <textarea class="form-control" id="noidung-add" wire:model.defer="noidung" placeholder="Nhập nội dung tin tức"
                                     rows="3"></textarea>
                             </div>
                             @error('noidung')
@@ -221,7 +222,7 @@
                                 x-on:livewire-upload-cancel="uploading = false; progress = 0"
                                 x-on:livewire-upload-error="uploading = false; progress = 0"
                                 x-on:livewire-upload-progress="progress = $event.detail.progress">
-                                <x-label for="filedinhkem" field="filedinhkem" class="col-6">Đính kèm file
+                                <x-label for="filedinhkem-add" field="filedinhkem" class="col-6">Đính kèm file
                                     (PDF)</x-label>
 
                                 <div x-show="uploading">
@@ -229,8 +230,9 @@
                                     <span x-text="progress + '%'"></span>
                                 </div>
 
-                                <input wire:model="filedinhkem" x-show="!uploading" class="form-control" id="fileUpload"
-                                    placeholder="Tải file PDF lên" type="file" accept=".pdf">
+                                <input wire:model="filedinhkem" x-show="!uploading" class="form-control"
+                                    id="fileUpload-add" placeholder="Tải file PDF lên" type="file"
+                                    accept=".pdf">
 
                                 @if ($tintucId && isset($tintuc) && $tintuc->attachments && $tintuc->attachments->count())
                                     <div class="mt-2">
@@ -280,16 +282,16 @@
 
 
                         <div class="form-group mb-2">
-                            <x-label for="tukhoa" field="tukhoa" class="col-6">Từ khóa</x-label>
+                            <x-label for="tukhoa-add" field="tukhoa" class="col-6">Từ khóa</x-label>
                             <div class="col-12" wire:ignore>
-                                <input type="text" class="form-control" wire:model="tukhoa" id="tags">
+                                <input type="text" class="form-control" wire:model="tukhoa" id="tags-add">
                             </div>
                         </div>
                         <div class="form-group mb-2">
-                            <x-label for="trangthai" field="trangthai" class="col-6" :required="true">Trạng
+                            <x-label for="trangthai-add" field="trangthai" class="col-6" :required="true">Trạng
                                 thái</x-label>
                             <div class="col-12">
-                                <select id="trangthai" wire:model="trangthai" class="form-select">
+                                <select id="trangthai-add" wire:model="trangthai" class="form-select">
                                     <option value="1">Hoạt động</option>
                                     <option value="0">Tạm ngưng</option>
                                 </select>
@@ -300,8 +302,174 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit"
-                            class="btn btn-primary">{{ $tintucId ? 'Cập nhật' : 'Thêm mới' }}</button>
+                        <button type="submit" class="btn btn-primary">Thêm mới</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal chỉnh sửa -->
+    <div wire:ignore.self class="modal fade" id="editTinTucModal" tabindex="-1"
+        aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog modal-lg">
+            <form wire:submit.prevent="update" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-black" id="exampleModalLabel">
+                            Sửa tin tức</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group mb-2">
+                            <x-label for="ten-edit" field="ten" class="col-6" :required="true">Tên</x-label>
+                            <div class="col-12">
+                                <input type="text" class="form-control" id="ten-edit" wire:model.defer="ten"
+                                    placeholder="Nhập tên tin tức">
+                                @error('ten')
+                                    <span class="text-danger" style="font-size: 15px">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group mb-2">
+                            <div class="col-12" x-data="{ uploading: false, progress: 0 }"
+                                x-on:livewire-upload-start="uploading = true; progress = 0"
+                                x-on:livewire-upload-finish="progress = 100; setTimeout(() => { uploading = false; }, 1500);"
+                                x-on:livewire-upload-cancel="uploading = false; progress = 0"
+                                x-on:livewire-upload-error="uploading = false; progress = 0"
+                                x-on:livewire-upload-progress="progress = $event.detail.progress">
+                                <x-label for="hinhanhUpload-edit" field="hinhanh" class="col-6"
+                                    :required="true">Hình
+                                    ảnh</x-label>
+                                <div x-show="uploading">
+                                    <progress max="100" x-bind:value="progress" class="me-2"></progress>
+                                    <span x-text="progress + '%'"></span>
+                                </div>
+
+                                <input wire:model="hinhanh" x-show="!uploading" class="form-control"
+                                    id="imageUpload-edit" placeholder="Tải ảnh lên" type="file">
+                                @if ($hinhanh)
+                                    <img width="100px" height="100px" src="{{ $hinhanh->temporaryUrl() }}">
+                                @elseif($hinhanhGoc)
+                                    <img class="img-fluid" width="100px" height="100px"
+                                        src="{{ asset($hinhanhGoc) }}">
+                                @endif
+                                @error('hinhanh')
+                                    <span class="text-danger" style="font-size: 15px">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group mb-2">
+                            <x-label for="mota-edit" field="mota" class="col-6" :required="true">Mô tả</x-label>
+                            <div class="col-12">
+                                <textarea class="form-control" id="mota-edit" wire:model.defer="mota" placeholder="Nhập mô tả tin tức"
+                                    rows="3"></textarea>
+                                @error('mota')
+                                    <span class="text-danger" style="font-size: 15px">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group mb-2">
+                            <x-label for="noidung-edit" field="noidung" class="col-6" :required="true">Nội
+                                dung</x-label>
+                            <div class="col-12" wire:ignore>
+                                <textarea class="form-control" id="noidung-edit" wire:model.defer="noidung" placeholder="Nhập nội dung tin tức"
+                                    rows="3"></textarea>
+                            </div>
+                            @error('noidung')
+                                <span class="text-danger" style="font-size: 15px">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group mb-2">
+                            @if ($tintucId && isset($tintuc) && $tintuc->attachments && $tintuc->attachments->count())
+                                <div class="mt-2">
+                                    <small class="text-muted">File hiện tại:</small>
+                                    @foreach ($tintuc->attachments as $attachment)
+                                        <div class="d-flex align-items-center gap-2">
+                                            <a href="{{ asset($attachment->url) }}" target="_blank"
+                                                class="btn btn-sm btn-outline-primary mb-1">
+                                                <i class="fas fa-file-pdf me-1"></i>{{ $attachment->ten }}
+                                            </a>
+                                            <button type="button" class="btn btn-sm btn-outline-danger mb-1"
+                                                wire:click="deleteAttachment({{ $tintuc->id }})">
+                                                <i class="fas fa-trash"></i> Xóa file
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <div class="col-12" x-data="{ uploading: false, progress: 0 }"
+                                    x-on:livewire-upload-start="uploading = true; progress = 0"
+                                    x-on:livewire-upload-finish="progress = 100; setTimeout(() => { uploading = false; }, 1500);"
+                                    x-on:livewire-upload-cancel="uploading = false; progress = 0"
+                                    x-on:livewire-upload-error="uploading = false; progress = 0"
+                                    x-on:livewire-upload-progress="progress = $event.detail.progress">
+                                    <x-label for="filedinhkem-edit" field="filedinhkem" class="col-6">Đính kèm file
+                                        (PDF)</x-label>
+
+                                    <div x-show="uploading">
+                                        <progress max="100" x-bind:value="progress"
+                                            class="me-2"></progress>
+                                        <span x-text="progress + '%'"></span>
+                                    </div>
+
+                                    <input wire:model="filedinhkem" x-show="!uploading" class="form-control"
+                                        id="fileUpload-edit" placeholder="Tải file PDF lên" type="file"
+                                        accept=".pdf">
+
+
+                                </div>
+                                @error('filedinhkem')
+                                    <span class="text-danger" style="font-size: 15px">{{ $message }}</span>
+                                @enderror
+                            @endif
+
+                        </div>
+
+                        <div class="mb-2">
+                            <x-label for="edit-select-chuyenmuc" field="chuyenMucList" class="col-6"
+                                :required="true">Chuyên mục</x-label>
+                            <div class="col-12" id="dropdown-edit-chuyen-muc" wire:ignore>
+                                <select id="edit-select-chuyenmuc" wire:model="chuyenMucList"
+                                    class="form-select select2" data-control="select2" data-close-on-select="false"
+                                    placeholder="Chọn ngôn ngữ" data-allow-clear="true" multiple="multiple"
+                                    style="width: 100%">
+                                    @foreach ($chuyenmucs as $chuyenmuc)
+                                        <option value="{{ $chuyenmuc->id }}">{{ $chuyenmuc->ten }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @error('chuyenMucList')
+                                <span class="text-danger" style="font-size: 15px">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+
+                        <div class="form-group mb-2">
+                            <x-label for="tukhoa-edit" field="tukhoa" class="col-6">Từ khóa</x-label>
+                            <div class="col-12" wire:ignore>
+                                <input type="text" class="form-control" wire:model="tukhoa" id="tags-edit">
+                            </div>
+                        </div>
+                        <div class="form-group mb-2">
+                            <x-label for="trangthai-edit" field="trangthai" class="col-6" :required="true">Trạng
+                                thái</x-label>
+                            <div class="col-12">
+                                <select id="trangthai-edit" wire:model="trangthai" class="form-select">
+                                    <option value="1">Hoạt động</option>
+                                    <option value="0">Tạm ngưng</option>
+                                </select>
+                                @error('trangthai')
+                                    <span class="text-danger" style="font-size: 15px">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Cập nhật</button>
                     </div>
                 </div>
             </form>
@@ -329,7 +497,8 @@
     </div>
 
     <!-- Modal chi tiết -->
-    <div wire:ignore.self class="modal fade" id="viewTinTucModal" tabindex="-1" aria-labelledby="exampleModalLabel">
+    <div wire:ignore.self class="modal fade" id="viewTinTucModal" tabindex="-1"
+        aria-labelledby="exampleModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -426,8 +595,8 @@
 
 <script>
     document.addEventListener('livewire:init', function() {
-        // Nội dung
-        $('#noidung').summernote({
+        // Nội dung cho modal thêm mới
+        $('#noidung-add').summernote({
             placeholder: 'Nhập nội dung',
             height: 300,
             toolbar: [
@@ -445,68 +614,124 @@
                 }
             }
         });
-        Livewire.on('reset-noidung', (event) => {
-            $('#noidung').summernote('reset');
-        });
-        Livewire.on('set-noidung', (data) => {
-            $('#noidung').summernote('code', data.noidung || '');
+
+        // Nội dung cho modal chỉnh sửa
+        $('#noidung-edit').summernote({
+            placeholder: 'Nhập nội dung',
+            height: 300,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ],
+            callbacks: {
+                onChange: function(contents, $editable) {
+                    @this.set('noidung', contents);
+                }
+            }
         });
 
-        // Chuyên mục
+        Livewire.on('reset-noidung', (event) => {
+            $('#noidung-add').summernote('reset');
+            $('#noidung-edit').summernote('reset');
+        });
+        Livewire.on('set-noidung', (data) => {
+            $('#noidung-add').summernote('code', data.noidung || '');
+            $('#noidung-edit').summernote('code', data.noidung || '');
+        });
+
+        // Chuyên mục cho modal thêm mới
         $('#add-select-chuyenmuc').select2({
             placeholder: 'Chọn chuyên mục',
             allowClear: true,
-            dropdownParent: $('#dropdown-add-chuyen-muc'), // Gắn dropdown vào modal
+            dropdownParent: $('#dropdown-add-chuyen-muc'),
             width: '100%'
         }).on('change', function(e) {
-            var data = $(this).val(); // Lấy giá trị đã chọn
-            @this.set('chuyenMucList', data); // Cập nhật thuộc tính Livewire
+            var data = $(this).val();
+            @this.set('chuyenMucList', data);
         });
+
+        // Chuyên mục cho modal chỉnh sửa
+        $('#edit-select-chuyenmuc').select2({
+            placeholder: 'Chọn chuyên mục',
+            allowClear: true,
+            dropdownParent: $('#dropdown-edit-chuyen-muc'),
+            width: '100%'
+        }).on('change', function(e) {
+            var data = $(this).val();
+            @this.set('chuyenMucList', data);
+        });
+
         Livewire.on('reset-chuyenmuc', () => {
             $('#add-select-chuyenmuc').val(null).trigger('change');
+            $('#edit-select-chuyenmuc').val(null).trigger('change');
         });
         Livewire.on('set-chuyenmuc', (data) => {
             $('#add-select-chuyenmuc').val(data.chuyenmuc).trigger('change');
+            $('#edit-select-chuyenmuc').val(data.chuyenmuc).trigger('change');
         });
 
-        // Từ khóa
-        $("#tags").tagsinput({
-            // limit 5 tag
+        // Từ khóa cho modal thêm mới
+        $("#tags-add").tagsinput({
             maxTags: 5,
-            // give tags same
             allowDuplicates: false,
             cancelConfirmKeysOnEmpty: false,
         });
-        $('#tags').on('itemAdded', function() {
-            @this.set('tukhoa', $('#tags').val());
+        $('#tags-add').on('itemAdded', function() {
+            @this.set('tukhoa', $('#tags-add').val());
         });
+
+        // Từ khóa cho modal chỉnh sửa
+        $("#tags-edit").tagsinput({
+            maxTags: 5,
+            allowDuplicates: false,
+            cancelConfirmKeysOnEmpty: false,
+        });
+        $('#tags-edit').on('itemAdded', function() {
+            @this.set('tukhoa', $('#tags-edit').val());
+        });
+
         Livewire.on('reset-tukhoa', () => {
-            $('#tags').tagsinput('removeAll');
+            $('#tags-add').tagsinput('removeAll');
+            $('#tags-edit').tagsinput('removeAll');
         });
         Livewire.on('set-tukhoa', (data) => {
             if (data.tukhoa) {
                 data.tukhoa.split(',').forEach(tag => {
                     console.log('Setting tukhoa:', tag);
-                    $('#tags').tagsinput('add', tag);
+                    $('#tags-add').tagsinput('add', tag);
+                    $('#tags-edit').tagsinput('add', tag);
                 });
             }
         });
 
         $('#tintucModal').on('hidden.bs.modal', function() {
-            $('#noidung').summernote('code', ''); // Xóa giá trị CKEditor
-            $('#add-select-chuyenmuc').val(null).trigger('change'); // Xóa giá trị Select2
-            $('#tags').tagsinput('removeAll'); // Xóa giá trị bootstrap-tagsinput
-            @this.resetFields(); // Reset giá trị Livewire
+            $('#noidung-add').summernote('code', '');
+            $('#add-select-chuyenmuc').val(null).trigger('change');
+            $('#tags-add').tagsinput('removeAll');
+            @this.resetFields();
+        });
+
+        $('#editTinTucModal').on('hidden.bs.modal', function() {
+            $('#noidung-edit').summernote('code', '');
+            $('#edit-select-chuyenmuc').val(null).trigger('change');
+            $('#tags-edit').tagsinput('removeAll');
+            @this.resetFields();
         });
     });
     window.addEventListener('close-modal', event => {
         $('#tintucModal').modal('hide');
+        $('#editTinTucModal').modal('hide');
         $('#deleteTinTucModal').modal('hide');
         $('#viewTinTucModal').modal('hide');
     });
 
     window.addEventListener('show-edit-modal', event => {
-        $('#tintucModal').modal('show');
+        $('#editTinTucModal').modal('show');
     })
 
     window.addEventListener('show-delete-modal', event => {

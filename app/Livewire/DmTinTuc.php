@@ -102,30 +102,11 @@ class DmTinTuc extends Component
     {
         $this->check_authentication('thêm mới');
         
-        // Log upload attempt
-        if ($this->filedinhkem) {
-            Log::info('Upload attempt', [
-                'file_size' => $this->filedinhkem->getSize(),
-                'file_name' => $this->filedinhkem->getClientOriginalName(),
-                'mime_type' => $this->filedinhkem->getMimeType(),
-                'extension' => $this->filedinhkem->getClientOriginalExtension()
-            ]);
-        }
-        
         $this->validate();
 
-        $targetPath = $this->hinhanhGoc; // Mặc định giữ lại ảnh cũ
-        $targetFilePath = null;
-
         try {
-
             // Nếu có ảnh mới được upload
             if ($this->hinhanh && $this->hinhanh instanceof \Illuminate\Http\UploadedFile) {
-                // Xóa ảnh cũ nếu tồn tại
-                if ($this->hinhanhGoc && file_exists(public_path($this->hinhanhGoc))) {
-                    unlink(public_path($this->hinhanhGoc));
-                }
-
                 // Tạo tên file mới
                 $photo_name = md5($this->hinhanh->getClientOriginalName() . microtime()) . '.' . $this->hinhanh->extension();
                 $targetPath = 'images/' . $photo_name;
@@ -148,29 +129,19 @@ class DmTinTuc extends Component
                 $image->save($fullPath);
             }
 
-            // Tạo hoặc cập nhật tin tức trước để lấy id
-            $tintuc = TinTuc::updateOrCreate(['id' => $this->tintucId], [
-                'ten' => $this->ten,
-                'hinhanh' => $targetPath,
-                'slug' => Str::slug($this->ten),
-                'mota' => $this->mota,
-                'noidung' => $this->noidung,
-                'tukhoa' => $this->tukhoa,
-                'trangthai' => $this->trangthai
-            ]);
+            $tintuc = new TinTuc();
+            $tintuc->ten = $this->ten;
+            $tintuc->hinhanh = $targetPath;
+            $tintuc->slug = Str::slug($this->ten);
+            $tintuc->mota = $this->mota;
+            $tintuc->noidung = $this->noidung;
+            $tintuc->tukhoa = $this->tukhoa;
+            $tintuc->trangthai = $this->trangthai;
+            $tintuc->save();
 
             // Nếu có file đính kèm mới được upload
             if ($this->filedinhkem && $this->filedinhkem instanceof \Illuminate\Http\UploadedFile) {
                 try {
-                    // Xóa file đính kèm cũ nếu có
-                    $oldAttachment = $tintuc->attachments()->first();
-                    if ($oldAttachment) {
-                        if ($oldAttachment->url && file_exists(public_path($oldAttachment->url))) {
-                            unlink(public_path($oldAttachment->url));
-                        }
-                        $oldAttachment->delete();
-                    }
-
                     $file_name = md5($this->filedinhkem->getClientOriginalName() . microtime()) . '.' . $this->filedinhkem->extension();
                     $targetFilePath = 'filedinhkem/' . $file_name;
 
@@ -186,12 +157,13 @@ class DmTinTuc extends Component
                     $this->filedinhkem->storeAs('filedinhkem', $file_name, 'real_public');
 
                     // Tạo bản ghi CmsAttachment
-                    CmsAttachment::create([
-                        'ten' => $file_name,
-                        'original_name' => $this->filedinhkem->getClientOriginalName(),
-                        'url' => $targetFilePath,
-                        'tintuc_id' => $tintuc->id,
-                    ]);
+                    $attachment = new CmsAttachment();
+                    $attachment->ten = $file_name;
+                    $attachment->original_name = $this->filedinhkem->getClientOriginalName();
+                    $attachment->url = $targetFilePath;
+                    $attachment->tintuc_id = $tintuc->id;
+                    $attachment->save();
+                
                 } catch (\Exception $e) {
                     Log::error('Lỗi khi upload file PDF: ' . $e->getMessage());
                     throw new \Exception('Không thể upload file PDF: ' . $e->getMessage());
@@ -203,11 +175,11 @@ class DmTinTuc extends Component
             $this->dispatch(
                 'show-alert',
                 title: 'Thành công!',
-                message: $this->tintucId ? 'Cập nhật tin tức thành công.' : 'Thêm mới tin tức thành công.',
+                message: 'Thêm mới tin tức thành công.',
                 type: 'success'
             );
         } catch (\Exception $e) {
-            Log::error('Lỗi khi ' . ($this->tintucId ? 'cập nhật' : 'thêm mới') . ' tin tức: ' . $e->getMessage());
+            Log::error('Lỗi khi thêm mới tin tức: ' . $e->getMessage());
             $this->dispatch(
                 'show-alert',
                 title: 'Lỗi!',
@@ -241,6 +213,122 @@ class DmTinTuc extends Component
         $this->dispatch('set-noidung', noidung: $this->noidung);
         $this->dispatch('set-tukhoa', tukhoa: $this->tukhoa);
         $this->dispatch('show-edit-modal');
+    }
+
+    public function update()
+    {
+        $this->check_authentication('chỉnh sửa');
+        
+        $this->validate();
+
+        try {
+            // Tìm tin tức cần cập nhật
+            $tintuc = TinTuc::findOrFail($this->tintucId);
+            
+            $targetPath = $this->hinhanhGoc; // Mặc định giữ lại ảnh cũ
+            
+            // Nếu có ảnh mới được upload
+            if ($this->hinhanh && $this->hinhanh instanceof \Illuminate\Http\UploadedFile) {
+                // Xóa ảnh cũ nếu tồn tại
+                if ($this->hinhanhGoc && file_exists(public_path($this->hinhanhGoc))) {
+                    unlink(public_path($this->hinhanhGoc));
+                }
+
+                // Tạo tên file mới
+                $photo_name = md5($this->hinhanh->getClientOriginalName() . microtime()) . '.' . $this->hinhanh->extension();
+                $targetPath = 'images/' . $photo_name;
+                $fullPath = public_path($targetPath);
+
+                // Tạo thư mục nếu chưa tồn tại
+                if (!file_exists(dirname($fullPath))) {
+                    mkdir(dirname($fullPath), 0755, true);
+                }
+
+                // Resize và lưu ảnh về kích thước 800x533, giữ tỷ lệ khung hình
+                $manager = new ImageTool(new GdDriver());
+                $image = $manager->read($this->hinhanh);
+                $image->resize(800, 533, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+
+                // Lưu ảnh đã resize
+                $image->save($fullPath);
+            }
+
+            // Cập nhật thông tin tin tức
+            $tintuc->ten = $this->ten;
+            $tintuc->hinhanh = $targetPath;
+            $tintuc->slug = Str::slug($this->ten);
+            $tintuc->mota = $this->mota;
+            $tintuc->noidung = $this->noidung;
+            $tintuc->tukhoa = $this->tukhoa;
+            $tintuc->trangthai = $this->trangthai;
+            $tintuc->save();
+
+            // Nếu có file đính kèm mới được upload
+            if ($this->filedinhkem && $this->filedinhkem instanceof \Illuminate\Http\UploadedFile) {
+                try {
+                    // Xóa file đính kèm cũ nếu có
+                    $oldAttachment = $tintuc->attachments()->first();
+                    if ($oldAttachment) {
+                        if ($oldAttachment->url && file_exists(public_path($oldAttachment->url))) {
+                            unlink(public_path($oldAttachment->url));
+                        }
+                        $oldAttachment->delete();
+                    }
+
+                    $file_name = md5($this->filedinhkem->getClientOriginalName() . microtime()) . '.' . $this->filedinhkem->extension();
+                    $targetFilePath = 'filedinhkem/' . $file_name;
+
+                    // Kiểm tra và tạo thư mục filedinhkem
+                    $attachmentDir = public_path('filedinhkem');
+                    if (!file_exists($attachmentDir)) {
+                        if (!mkdir($attachmentDir, 0775, true)) {
+                            throw new \Exception('Không thể tạo thư mục filedinhkem');
+                        }
+                    }
+                    
+                    // Lưu file đính kèm trực tiếp
+                    $this->filedinhkem->storeAs('filedinhkem', $file_name, 'real_public');
+
+                    // Tạo bản ghi CmsAttachment
+                    $attachment = new CmsAttachment();
+                    $attachment->ten = $file_name;
+                    $attachment->original_name = $this->filedinhkem->getClientOriginalName();
+                    $attachment->url = $targetFilePath;
+                    $attachment->tintuc_id = $tintuc->id;
+                    $attachment->save();
+                    
+                } catch (\Exception $e) {
+                    Log::error('Lỗi khi upload file PDF: ' . $e->getMessage());
+                    throw new \Exception('Không thể upload file PDF: ' . $e->getMessage());
+                }
+            }
+
+            $tintuc->chuyenmucs()->sync($this->chuyenMucList);
+
+            $this->dispatch(
+                'show-alert',
+                title: 'Thành công!',
+                message: 'Cập nhật tin tức thành công.',
+                type: 'success'
+            );
+        } catch (\Exception $e) {
+            Log::error('Lỗi khi cập nhật tin tức: ' . $e->getMessage());
+            $this->dispatch(
+                'show-alert',
+                title: 'Lỗi!',
+                message: 'Có lỗi xảy ra: ' . $e->getMessage(),
+                type: 'error'
+            );
+        }
+
+        $this->resetFields();
+        $this->dispatch('reset-chuyenmuc');
+        $this->dispatch('reset-noidung');
+        $this->dispatch('reset-tukhoa');
+        $this->dispatch('close-modal');
     }
 
     public function view($id)
@@ -285,25 +373,22 @@ class DmTinTuc extends Component
 
         try {
             $tintuc = TinTuc::findOrFail($this->the_delete_id);
+            
+            // Xóa file đính kèm nếu có
             $attachment = $tintuc->attachments()->first();
-            if ($attachment->url && file_exists(public_path($attachment->url))) {
-                unlink(public_path($attachment->url));
+            if ($attachment) {
+                if ($attachment->url && file_exists(public_path($attachment->url))) {
+                    unlink(public_path($attachment->url));
+                }
+                $attachment->delete();
             }
-            $attachment->delete();
-            // Xóa nhiều file đính kèm vật lý và bản ghi CmsAttachment nếu có
-            // $attachments = $tintuc->attachments;
-            // foreach ($attachments as $attachment) {
-            //     if ($attachment->url && file_exists(public_path($attachment->url))) {
-            //         unlink(public_path($attachment->url));
-            //     }
-            //     $attachment->delete();
-            // }
-            $tintuc->delete();
-
+            
             // Xóa ảnh cũ nếu tồn tại
             if ($this->hinhanhGoc && file_exists(public_path($this->hinhanhGoc))) {
                 unlink(public_path($this->hinhanhGoc));
             }
+            
+            $tintuc->delete();
 
             $this->dispatch(
                 'show-alert',
@@ -330,8 +415,8 @@ class DmTinTuc extends Component
         $tintuc = TinTuc::findOrFail($tintucId);
         $attachment = $tintuc->attachments()->first();
         if ($attachment) {
-            if ($attachment->file_path && file_exists(public_path($attachment->file_path))) {
-                unlink(public_path($attachment->file_path));
+            if ($attachment->url && file_exists(public_path($attachment->url))) {
+                unlink(public_path($attachment->url));
             }
             $attachment->delete();
             $this->dispatch(
