@@ -38,6 +38,9 @@ COPY . .
 # Install Laravel dependencies
 RUN composer install --optimize-autoloader --no-dev
 
+# ✅ Add PHP upload size configuration
+RUN echo "upload_max_filesize = 100M\npost_max_size = 120M" > /usr/local/etc/php/conf.d/uploads.ini
+
 # Set permissions
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 755 /var/www/storage
