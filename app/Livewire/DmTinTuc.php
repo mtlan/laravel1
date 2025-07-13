@@ -7,6 +7,7 @@ use App\Models\CmsAttachment;
 use App\Models\TinTuc;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -140,6 +141,9 @@ class DmTinTuc extends Component
 
             // Nếu có file đính kèm mới được upload
             if ($this->filedinhkem && $this->filedinhkem instanceof \Illuminate\Http\UploadedFile) {
+                if (!$this->filedinhkem->isValid()) {
+                    throw new \Exception('File đính kèm vượt quá giới hạn upload_max_filesize');
+                }
                 try {
                     $file_name = md5($this->filedinhkem->getClientOriginalName() . microtime()) . '.' . $this->filedinhkem->extension();
                     $targetFilePath = 'filedinhkem/' . $file_name;
@@ -292,6 +296,9 @@ class DmTinTuc extends Component
 
             // Nếu có file đính kèm mới được upload
             if ($this->filedinhkem && $this->filedinhkem instanceof \Illuminate\Http\UploadedFile) {
+                if (!$this->filedinhkem->isValid()) {
+                    throw new \Exception('File đính kèm vượt quá giới hạn upload_max_filesize');
+                }
                 try {
                     // Xóa file đính kèm cũ nếu có
                     $oldAttachment = $tintuc->attachments()->first();
