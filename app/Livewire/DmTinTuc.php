@@ -7,7 +7,6 @@ use App\Models\CmsAttachment;
 use App\Models\TinTuc;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -63,7 +62,7 @@ class DmTinTuc extends Component
         'hinhanh.mimes' => 'Hình ảnh phải có định dạng jpeg, png hoặc jpg.',
         'filedinhkem.file' => 'File đính kèm phải là một tệp tin.',
         'filedinhkem.mimes' => 'File đính kèm phải có định dạng PDF.',
-        'filedinhkem.max' => 'File đính kèm không được vượt quá 5MB.',
+        'filedinhkem.max' => 'File đính kèm không được vượt quá 10MB.',
         'chuyenMucList.required' => 'Chuyên mục không được để trống.',
     ];
 
@@ -154,7 +153,12 @@ class DmTinTuc extends Component
                     }
                     
                     // Lưu file đính kèm trực tiếp
-                    $this->filedinhkem->storeAs('filedinhkem', $file_name, 'real_public');
+                    $storedPath = $this->filedinhkem->storeAs('filedinhkem', $file_name, 'real_public');
+                    
+                    // Kiểm tra file đã được lưu thành công
+                    if (!$storedPath || !file_exists(public_path($targetFilePath))) {
+                        throw new \Exception('Không thể lưu file đính kèm');
+                    }
 
                     // Tạo bản ghi CmsAttachment
                     $attachment = new CmsAttachment();
@@ -162,7 +166,27 @@ class DmTinTuc extends Component
                     $attachment->original_name = $this->filedinhkem->getClientOriginalName();
                     $attachment->url = $targetFilePath;
                     $attachment->tintuc_id = $tintuc->id;
+                    $attachment->mime = $this->filedinhkem->getMimeType();
+                    $attachment->size = $this->filedinhkem->getSize();
+                    $attachment->trangthai = 1;
                     $attachment->save();
+                    
+                    // Log::info('Đang lưu attachment với thông tin:', [
+                    //     'ten' => $attachment->ten,
+                    //     'url' => $attachment->url,
+                    //     'tintuc_id' => $attachment->tintuc_id,
+                    //     'file_exists' => file_exists(public_path($targetFilePath))
+                    // ]);
+                    
+                    // if (!$attachment->save()) {
+                    //     // Nếu không lưu được database, xóa file đã upload
+                    //     if (file_exists(public_path($targetFilePath))) {
+                    //         unlink(public_path($targetFilePath));
+                    //     }
+                    //     throw new \Exception('Không thể lưu thông tin file đính kèm vào database');
+                    // }
+                    
+                    Log::info('Đã lưu attachment thành công với ID: ' . $attachment->id);
                 
                 } catch (\Exception $e) {
                     Log::error('Lỗi khi upload file PDF: ' . $e->getMessage());
@@ -290,7 +314,12 @@ class DmTinTuc extends Component
                     }
                     
                     // Lưu file đính kèm trực tiếp
-                    $this->filedinhkem->storeAs('filedinhkem', $file_name, 'real_public');
+                    $storedPath = $this->filedinhkem->storeAs('filedinhkem', $file_name, 'real_public');
+                    
+                    // Kiểm tra file đã được lưu thành công
+                    if (!$storedPath || !file_exists(public_path($targetFilePath))) {
+                        throw new \Exception('Không thể lưu file đính kèm');
+                    }
 
                     // Tạo bản ghi CmsAttachment
                     $attachment = new CmsAttachment();
@@ -298,8 +327,28 @@ class DmTinTuc extends Component
                     $attachment->original_name = $this->filedinhkem->getClientOriginalName();
                     $attachment->url = $targetFilePath;
                     $attachment->tintuc_id = $tintuc->id;
+                    $attachment->mime = $this->filedinhkem->getMimeType();
+                    $attachment->size = $this->filedinhkem->getSize();
+                    $attachment->trangthai = 1;
                     $attachment->save();
                     
+                    // Log::info('Đang cập nhật attachment với thông tin:', [
+                    //     'ten' => $attachment->ten,
+                    //     'url' => $attachment->url,
+                    //     'tintuc_id' => $attachment->tintuc_id,
+                    //     'file_exists' => file_exists(public_path($targetFilePath))
+                    // ]);
+                    
+                    // if (!$attachment->save()) {
+                    //     // Nếu không lưu được database, xóa file đã upload
+                    //     if (file_exists(public_path($targetFilePath))) {
+                    //         unlink(public_path($targetFilePath));
+                    //     }
+                    //     throw new \Exception('Không thể lưu thông tin file đính kèm vào database');
+                    // }
+                    
+                    Log::info('Đã cập nhật attachment thành công với ID: ' . $attachment->id);
+                
                 } catch (\Exception $e) {
                     Log::error('Lỗi khi upload file PDF: ' . $e->getMessage());
                     throw new \Exception('Không thể upload file PDF: ' . $e->getMessage());
