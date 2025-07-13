@@ -23,7 +23,10 @@ RUN apt-get update && apt-get install -y \
     libmagickwand-dev \
     libicu-dev \
     nano \
-    libxslt-dev \
+    libxslt-dev
+
+# 👉 Config GD with JPEG and Freetype support, then install extensions
+RUN docker-php-ext-configure gd --with-jpeg --with-freetype \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
 # Install Composer
