@@ -39,7 +39,7 @@ COPY . .
 RUN composer install --optimize-autoloader --no-dev
 
 # ✅ Add PHP upload size configuration
-RUN echo "upload_max_filesize = 2M\npost_max_size = 2M" > /usr/local/etc/php/conf.d/uploads.ini
+# RUN echo "upload_max_filesize = 2M\npost_max_size = 2M" > /usr/local/etc/php/conf.d/uploads.ini
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www \
