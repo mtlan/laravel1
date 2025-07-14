@@ -35,8 +35,10 @@
             <div class="text-center rounded p-4">
                 <div class="row g-3 mb-4">
                     <div class="col-12 col-md-2 col-lg-2 col-xl-auto me-auto">
+                        @can('themtintuc')
                         <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#tintucModal">Thêm
                             mới</button>
+                        @endcan
                     </div><!--end col-->
 
                     <div class="col-12 col-md-4 col-lg-4 col-xl-3">
@@ -125,10 +127,14 @@
                                         <div class="mt-2 mt-md-0">
                                             <button class="btn btn-sm btn-outline-info"
                                                 wire:click="view({{ $tintuc->id }})">Xem</button>
+                                            @can('suatintuc')
                                             <button class="btn btn-sm btn-outline-success"
                                                 wire:click="edit({{ $tintuc->id }})">Sửa</button>
+                                            @endcan
+                                            @can('xoatintuc')
                                             <button class="btn btn-sm btn-outline-danger"
                                                 wire:click="delete({{ $tintuc->id }})">Xoá</button>
+                                            @endcan
                                         </div>
                                     </div>
                                 </div>
@@ -181,7 +187,7 @@
                                 </div>
 
                                 <input wire:model="hinhanh" x-show="!uploading" class="form-control"
-                                    id="imageUpload-add" placeholder="Tải ảnh lên" type="file">
+                                    id="imageUpload-add" placeholder="Tải ảnh lên" type="file" accept="image/*">
                                 @if ($hinhanh)
                                     <img width="100px" height="100px" src="{{ $hinhanh->temporaryUrl() }}">
                                 @elseif($hinhanhGoc)
@@ -349,7 +355,7 @@
                                 </div>
 
                                 <input wire:model="hinhanh" x-show="!uploading" class="form-control"
-                                    id="imageUpload-edit" placeholder="Tải ảnh lên" type="file">
+                                    id="imageUpload-edit" placeholder="Tải ảnh lên" type="file" accept="image/*">
                                 @if ($hinhanh)
                                     <img width="100px" height="100px" src="{{ $hinhanh->temporaryUrl() }}">
                                 @elseif($hinhanhGoc)
@@ -384,21 +390,19 @@
                         </div>
 
                         <div class="form-group mb-2">
-                            @if ($tintucId && isset($tintuc) && $tintuc->attachments && $tintuc->attachments->count())
+                            @if ($this->attachment)
                                 <div class="mt-2">
                                     <small class="text-muted">File hiện tại:</small>
-                                    @foreach ($tintuc->attachments as $attachment)
-                                        <div class="d-flex align-items-center gap-2">
-                                            <a href="{{ asset($attachment->url) }}" target="_blank"
-                                                class="btn btn-sm btn-outline-primary mb-1">
-                                                <i class="fas fa-file-pdf me-1"></i>{{ $attachment->ten }}
-                                            </a>
-                                            <button type="button" class="btn btn-sm btn-outline-danger mb-1"
-                                                wire:click="deleteAttachment({{ $tintuc->id }})">
-                                                <i class="fas fa-trash"></i> Xóa file
-                                            </button>
-                                        </div>
-                                    @endforeach
+                                    <div class="d-flex align-items-center gap-2">
+                                        <a href="{{ asset($attachment->url) }}" target="_blank"
+                                            class="btn btn-sm btn-outline-primary mb-1">
+                                            <i class="fas fa-file-pdf me-1"></i>{{ $attachment->ten }}
+                                        </a>
+                                        <button type="button" class="btn btn-sm btn-outline-danger mb-1"
+                                            wire:click="deleteAttachment({{ $tintuc->id }})">
+                                            <i class="fas fa-trash"></i> Xóa file
+                                        </button>
+                                    </div>
                                 </div>
                             @else
                                 <div class="col-12" x-data="{ uploading: false, progress: 0 }"
@@ -523,17 +527,12 @@
                             <tr>
                                 <th>File đính kèm</th>
                                 <td>
-                                    @if ($tintucId && isset($tintuc) && $tintuc->attachments && $tintuc->attachments->count())
-                                        @php $attachment = $tintuc->attachments->first(); @endphp
+                                    @if ($attachment)
                                         <div class="d-flex align-items-center gap-2">
                                             <a href="{{ asset($attachment->url) }}" target="_blank"
                                                 class="btn btn-sm btn-outline-primary mb-1">
                                                 <i class="fas fa-file-pdf me-1"></i>{{ $attachment->ten }}
                                             </a>
-                                            {{-- <button type="button" class="btn btn-sm btn-outline-danger mb-1"
-                                                wire:click="deleteAttachment({{ $tintuc->id }})">
-                                                <i class="fas fa-trash"></i> Xóa file
-                                            </button> --}}
                                         </div>
                                     @else
                                         <span class="text-muted">Không có file đính kèm</span>
@@ -572,8 +571,8 @@
                             <tr>
                                 <th>Từ khóa</th>
                                 <td>
-                                    @if ($tukhoa1)
-                                        @foreach (explode(',', $tukhoa1) as $tk)
+                                    @if ($tukhoa_view)
+                                        @foreach (explode(',', $tukhoa_view) as $tk)
                                             <span class="badge bg-secondary">{{ $tk }}</span>
                                         @endforeach
                                     @else
@@ -702,7 +701,7 @@
         Livewire.on('set-tukhoa', (data) => {
             if (data.tukhoa) {
                 data.tukhoa.split(',').forEach(tag => {
-                    console.log('Setting tukhoa:', tag);
+                    // console.log('Setting tukhoa:', tag);
                     $('#tags-add').tagsinput('add', tag);
                     $('#tags-edit').tagsinput('add', tag);
                 });
@@ -716,11 +715,56 @@
             @this.resetFields();
         });
 
+        // Thêm event listener cho việc click ra ngoài modal thêm mới
+        $('#tintucModal').on('click', function(e) {
+            if (e.target === this) {
+                $('#noidung-add').summernote('code', '');
+                $('#add-select-chuyenmuc').val(null).trigger('change');
+                $('#tags-add').tagsinput('removeAll');
+                @this.resetFields();
+            }
+        });
+
         $('#editTinTucModal').on('hidden.bs.modal', function() {
+            $('#noidung-add').summernote('code', '');
             $('#noidung-edit').summernote('code', '');
+            $('#add-select-chuyenmuc').val(null).trigger('change');
             $('#edit-select-chuyenmuc').val(null).trigger('change');
+            $('#tags-add').tagsinput('removeAll');
             $('#tags-edit').tagsinput('removeAll');
-            @this.resetFields();
+            @this.closeViewModal();
+        });
+
+        // Thêm event listener cho việc click ra ngoài modal edit
+        $('#editTinTucModal').on('click', function(e) {
+            if (e.target === this) {
+                $('#noidung-add').summernote('code', '');
+                $('#noidung-edit').summernote('code', '');
+                $('#add-select-chuyenmuc').val(null).trigger('change');
+                $('#edit-select-chuyenmuc').val(null).trigger('change');
+                $('#tags-add').tagsinput('removeAll');
+                $('#tags-edit').tagsinput('removeAll');
+                @this.closeViewModal();
+            }
+        });
+
+        // Thêm event listener cho modal view để reset hình ảnh khi click ra ngoài
+        $('#viewTinTucModal').on('hidden.bs.modal', function() {
+            @this.closeViewModal();
+        });
+
+        // Thêm event listener cho việc click ra ngoài modal view
+        $('#viewTinTucModal').on('click', function(e) {
+            if (e.target === this) {
+                @this.closeViewModal();
+            }
+        });
+
+        // Thêm event listener cho việc click ra ngoài modal delete
+        $('#deleteTinTucModal').on('click', function(e) {
+            if (e.target === this) {
+                @this.resetFields();
+            }
         });
     });
     window.addEventListener('close-modal', event => {

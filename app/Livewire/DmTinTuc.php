@@ -23,7 +23,7 @@ class DmTinTuc extends Component
 
     public $tinTuc, $chuyenMuc, $tuKhoa;
     public $ten, $hinhanh, $hinhanhGoc, $mota, $noidung;
-    public $filedinhkem, $filedinhkemGoc;
+    public $filedinhkem;
     public $chuyenMucList = [];
     public $tukhoa;
     public $trangthai = 1;
@@ -32,7 +32,8 @@ class DmTinTuc extends Component
     public $search;
     public $chuyenMucSelect;
     public $attachmentId;
-    public $tukhoa1;
+    public $tukhoa_view;
+    public $attachment;
 
     public function rules()
     {
@@ -90,7 +91,6 @@ class DmTinTuc extends Component
         $this->hinhanh = '';
         $this->hinhanhGoc = '';
         $this->filedinhkem = '';
-        $this->filedinhkemGoc = '';
         $this->chuyenMucList = [];
         $this->tukhoa = '';
         $this->trangthai = 1;
@@ -164,7 +164,7 @@ class DmTinTuc extends Component
                         throw new \Exception('Không thể lưu file đính kèm');
                     }
 
-                    // Tạo bản ghi CmsAttachment
+                    // Tạo bản ghi CmsAttachment (hasOne relationship)
                     $attachment = new CmsAttachment();
                     $attachment->ten = $file_name;
                     $attachment->original_name = $this->filedinhkem->getClientOriginalName();
@@ -174,21 +174,6 @@ class DmTinTuc extends Component
                     $attachment->size = $this->filedinhkem->getSize();
                     $attachment->trangthai = 1;
                     $attachment->save();
-                    
-                    // Log::info('Đang lưu attachment với thông tin:', [
-                    //     'ten' => $attachment->ten,
-                    //     'url' => $attachment->url,
-                    //     'tintuc_id' => $attachment->tintuc_id,
-                    //     'file_exists' => file_exists(public_path($targetFilePath))
-                    // ]);
-                    
-                    // if (!$attachment->save()) {
-                    //     // Nếu không lưu được database, xóa file đã upload
-                    //     if (file_exists(public_path($targetFilePath))) {
-                    //         unlink(public_path($targetFilePath));
-                    //     }
-                    //     throw new \Exception('Không thể lưu thông tin file đính kèm vào database');
-                    // }
                     
                     Log::info('Đã lưu attachment thành công với ID: ' . $attachment->id);
                 
@@ -231,11 +216,10 @@ class DmTinTuc extends Component
         $this->mota = $tintuc->mota;
         $this->noidung = $tintuc->noidung;
         $this->hinhanhGoc = $tintuc->hinhanh;
-        // KHÔNG LẤY filedinhkemGoc từ tin_tuc nữa
-        $this->filedinhkemGoc = null;
         $this->chuyenMucList = $tintuc->chuyenmucs->pluck('id')->toArray();
         $this->tukhoa = $tintuc->tukhoa;
         $this->trangthai = $tintuc->trangthai;
+        $this->attachment = $tintuc->attachment;
 
         $this->dispatch('set-chuyenmuc', chuyenmuc: $this->chuyenMucList);
         $this->dispatch('set-noidung', noidung: $this->noidung);
@@ -300,8 +284,8 @@ class DmTinTuc extends Component
                     throw new \Exception('File đính kèm vượt quá giới hạn upload_max_filesize');
                 }
                 try {
-                    // Xóa file đính kèm cũ nếu có
-                    $oldAttachment = $tintuc->attachments()->first();
+                    // Xóa file đính kèm cũ nếu có (hasOne relationship)
+                    $oldAttachment = $tintuc->attachment;
                     if ($oldAttachment) {
                         if ($oldAttachment->url && file_exists(public_path($oldAttachment->url))) {
                             unlink(public_path($oldAttachment->url));
@@ -328,31 +312,16 @@ class DmTinTuc extends Component
                         throw new \Exception('Không thể lưu file đính kèm');
                     }
 
-                    // Tạo bản ghi CmsAttachment
+                    // Tạo bản ghi CmsAttachment (hasOne relationship)
                     $attachment = new CmsAttachment();
                     $attachment->ten = $file_name;
                     $attachment->original_name = $this->filedinhkem->getClientOriginalName();
                     $attachment->url = $targetFilePath;
-                    $attachment->tintuc_id = $tintuc->id;
+                    $attachment->tintuc_id = $this->tintucId;
                     $attachment->mime = $this->filedinhkem->getMimeType();
                     $attachment->size = $this->filedinhkem->getSize();
                     $attachment->trangthai = 1;
                     $attachment->save();
-                    
-                    // Log::info('Đang cập nhật attachment với thông tin:', [
-                    //     'ten' => $attachment->ten,
-                    //     'url' => $attachment->url,
-                    //     'tintuc_id' => $attachment->tintuc_id,
-                    //     'file_exists' => file_exists(public_path($targetFilePath))
-                    // ]);
-                    
-                    // if (!$attachment->save()) {
-                    //     // Nếu không lưu được database, xóa file đã upload
-                    //     if (file_exists(public_path($targetFilePath))) {
-                    //         unlink(public_path($targetFilePath));
-                    //     }
-                    //     throw new \Exception('Không thể lưu thông tin file đính kèm vào database');
-                    // }
                     
                     Log::info('Đã cập nhật attachment thành công với ID: ' . $attachment->id);
                 
@@ -395,13 +364,12 @@ class DmTinTuc extends Component
         $this->tintucId = $tintuc->id;
         $this->ten = $tintuc->ten;
         $this->hinhanhGoc = $tintuc->hinhanh;
-        // KHÔNG LẤY filedinhkemGoc từ tin_tuc nữa
-        $this->filedinhkemGoc = null;
         $this->mota = $tintuc->mota;
         $this->noidung = $tintuc->noidung;
-        $this->tukhoa1 = $tintuc->tukhoa;
+        $this->tukhoa_view = $tintuc->tukhoa;
         $this->chuyenMucList = $tintuc->chuyenmucs->pluck('id')->toArray();
         $this->trangthai = $tintuc->getTrangThai();
+        $this->attachment = $tintuc->attachment;
 
         $this->dispatch('show-view-modal');
     }
@@ -430,8 +398,8 @@ class DmTinTuc extends Component
         try {
             $tintuc = TinTuc::findOrFail($this->the_delete_id);
             
-            // Xóa file đính kèm nếu có
-            $attachment = $tintuc->attachments()->first();
+            // Xóa file đính kèm nếu có (hasOne relationship)
+            $attachment = $tintuc->attachment;
             if ($attachment) {
                 if ($attachment->url && file_exists(public_path($attachment->url))) {
                     unlink(public_path($attachment->url));
@@ -469,19 +437,24 @@ class DmTinTuc extends Component
     public function deleteAttachment($tintucId)
     {
         $tintuc = TinTuc::findOrFail($tintucId);
-        $attachment = $tintuc->attachments()->first();
-        if ($attachment) {
-            if ($attachment->url && file_exists(public_path($attachment->url))) {
-                unlink(public_path($attachment->url));
+        $attachment = $tintuc->attachment;
+        try {
+            if ($attachment) {
+                if ($attachment->url && file_exists(public_path($attachment->url))) {
+                    unlink(public_path($attachment->url));
+                }
+                $attachment->delete();
+                // Cập nhật lại biến attachment để giao diện không hiển thị file cũ nữa
+                $this->attachment = null;
+                $this->dispatch(
+                    'show-alert',
+                    title: 'Thành công!',
+                    message: 'Đã xóa file đính kèm thành công.',
+                    type: 'success'
+                );
             }
-            $attachment->delete();
-            $this->dispatch(
-                'show-alert',
-                title: 'Thành công!',
-                message: 'Đã xóa file đính kèm thành công.',
-                type: 'success'
-            );
-        } else {
+        } catch (\Throwable $e) {
+            Log::error('Lỗi khi xóa file đính kèm: ' . $e->getMessage());
             $this->dispatch(
                 'show-alert',
                 title: 'Thông báo',
@@ -503,12 +476,13 @@ class DmTinTuc extends Component
         $this->mota = '';
         $this->noidung = '';
         $this->hinhanh = '';
-        $this->filedinhkem = '';
-        $this->filedinhkemGoc = '';
+        $this->hinhanhGoc = null;
         $this->chuyenMucList = [];
         $this->trangthai = 1;
         $this->tukhoa = '';
+        $this->tukhoa_view = '';
         $this->attachmentId = '';
+        // $this->attachment = null;
         $this->dispatch('close-modal');
     }
 
