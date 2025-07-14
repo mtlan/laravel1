@@ -35,10 +35,8 @@
             <div class="text-center rounded p-4">
                 <div class="row g-3 mb-4">
                     <div class="col-12 col-md-2 col-lg-2 col-xl-auto me-auto">
-                        @can('themtintuc')
                         <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#tintucModal">Thêm
                             mới</button>
-                        @endcan
                     </div><!--end col-->
 
                     <div class="col-12 col-md-4 col-lg-4 col-xl-3">
@@ -127,14 +125,13 @@
                                         <div class="mt-2 mt-md-0">
                                             <button class="btn btn-sm btn-outline-info"
                                                 wire:click="view({{ $tintuc->id }})">Xem</button>
-                                            @can('suatintuc')
+                                            
                                             <button class="btn btn-sm btn-outline-success"
                                                 wire:click="edit({{ $tintuc->id }})">Sửa</button>
-                                            @endcan
-                                            @can('xoatintuc')
+                                            
                                             <button class="btn btn-sm btn-outline-danger"
                                                 wire:click="delete({{ $tintuc->id }})">Xoá</button>
-                                            @endcan
+                                            
                                         </div>
                                     </div>
                                 </div>
